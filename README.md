@@ -54,6 +54,27 @@ Last thing is to rename the PC to `DC` and restart before we install our Active 
 
 ### Install Active Directory Domain Services
 
-After booting back into the DC, I install Active Directory Domain Services.
+After booting back into the DC, I install Active Directory Domain Services:
 
-<!-- insert_video -->
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/082ac489-242e-4b72-b908-5e54bae02b4f
+
+### Promote the server to domain controller
+
+Now to promote our server to a domain controller. This will auto restart the VM after the wizard completes the promotion.
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/c446b041-bfa6-4a16-a55f-343f4f7f574d
+
+Upon next login, we see that our VM is now part of MYDOMAIN.
+
+![Screenshot 2023-11-21 150253](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/ad786f2f-8a2e-411c-a62d-2c41a098476c)
+
+Instead of the defaul Administrator account, I create my own domain admin account and promote it to Domain Admins.
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/4d9df50a-8ba2-42f8-afb3-2a14ffe2bf90
+
+### RAS / NAT
+
+Now to configure RAS/NAT to allow our client VM that is on the virtual private network to access the internet through the domain controller.
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/88d1f4da-40c4-4d80-aead-edcdf1a5d037
+
