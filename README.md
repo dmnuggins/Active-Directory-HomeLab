@@ -150,4 +150,4 @@ We can also confirm in Active Directory > mydomain.com > Computers that our clie
 
 ![Screenshot 2023-11-20 203803](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/54047cf8-36bd-4c2e-a44e-df4e7d1d0c7e)
 
-And success, that is the end of the lab! 🙌
+And success, we've simulated a small scale enterprise network in a controlled homelab environment! 🙌
