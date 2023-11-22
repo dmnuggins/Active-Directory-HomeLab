@@ -67,7 +67,7 @@ Upon next login, we see that our VM is now part of MYDOMAIN.
 
 ![Screenshot 2023-11-21 150253](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/ad786f2f-8a2e-411c-a62d-2c41a098476c)
 
-Instead of the defaul Administrator account, I create my own domain admin account and promote it to Domain Admins.
+Instead of the default Administrator account, I create my own domain admin account and promote it to Domain Admins.
 
 https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/4d9df50a-8ba2-42f8-afb3-2a14ffe2bf90
 
