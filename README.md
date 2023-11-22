@@ -16,18 +16,18 @@ I will reference this diagram for the project configurations
 ### Creating the domain controller
 The first virtual machine will function as our domain controller and will require two network adapters. After creating our machine, using the Server 2019 ISO, we will configure the network adapters. In the VM's Settings > Network page, leave Adapter 1 with the default NAT configuration. Enable Adapter 2 and set Attached to: Internal Network.
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sexsc99athq9oh059bb2.png)
+![DC-settings-adapter-1](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sexsc99athq9oh059bb2.png)
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bft9q1mrokl8trny7dou.png)
 
 After completing the network adapter configuration, we will need to complete the initial setup of Windows Server 2019 on our DC.
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bm4cywgz481s2z2o0xr6.png)
+![DC-settings-adpater-2](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bm4cywgz481s2z2o0xr6.png)
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d8kehset9uwd0x2vdwis.png)
+![DC-installation-media](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d8kehset9uwd0x2vdwis.png)
 
 After initial setup is completed, we need to configure the network adapters in OS. We can identify which one is going to be the internal adapter by checking the IPv4 addresses their respective connection details.
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/00tbxabnsp05zjk5sopd.png)
+![Windows-server-install-screen](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/00tbxabnsp05zjk5sopd.png)
 
 The one with `10.0.2.15` IPv4 is our internet facing adapter, whereas the other is our internal one since the IPv4 is autoconfigured, so we can now label them as _INTERNET_ and X_Internal_X respectively.
 
@@ -44,13 +44,13 @@ Now we will be setting up the IP addressing for our internal adapter with the fo
 - Default gateway:  `. . .`
 - Preferred DNS server: `127.0.0.1`
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/u44nmjjool2j4zreinyz.png)
+![Internal-properties](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/u44nmjjool2j4zreinyz.png)
 
 Note: When we install AD, we will configure the DC to use itself as the primary DNS server, so that's why we have a loopback IP, `127.0.0.1` in the Preferred DNS Server field.
 
 Last thing is to rename the PC to `DC` and restart before we install our Active Directory Domain Services.
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hrsuwt5drjjhm379if1y.png)
+![Rename-pc](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hrsuwt5drjjhm379if1y.png)
 
 ### Install Active Directory Domain Services
 
