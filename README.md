@@ -66,7 +66,6 @@ https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/c446b041-bf
 
 Upon next login, we see that our VM is now part of MYDOMAIN.
 
-
 ![Screenshot 2023-11-21 150253](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/ad786f2f-8a2e-411c-a62d-2c41a098476c)
 
 Instead of the defaul Administrator account, I create my own domain admin account and promote it to Domain Admins.
@@ -133,6 +132,7 @@ On initial setup, we can name our computer `CLIENT`, so when we get to the deskt
 ![Screenshot 2023-11-20 203541](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/9e510d4b-eaac-41cd-ad87-0e243511e50d)
 
 Let's logout and log in as our generate user `dnguyen`.
+
 ![Screenshot 2023-11-20 203915](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/79581328-de8a-4f9d-9b37-d50958ea7d4e)
 
 After a successful login, let's run `whoami` to confirm my domain\user.
@@ -140,12 +140,15 @@ After a successful login, let's run `whoami` to confirm my domain\user.
 ![Screenshot 2023-11-20 204123](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/013a4f03-b357-4281-ab10-4797ede5e5f0)
 
 Let's ping google.com to confirm we have access to the internet and for good measure, we can ping our domain: `mydomain.com`
+
 ![Screenshot 2023-11-20 203237](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/0c1e7816-7ad7-49c2-89f1-2b3006f2b927)
 
 Back on our DC, we can take a look in our DHCP > dc.mydomai.com > IPv4 > Address Leases to see our client machine listed with its unique IP in our defined scope.
+
 ![Screenshot 2023-11-20 203707](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/bd277c67-4509-45e6-b81b-5fe80f6dbc52)
 
 We can also confirm in Active Directory > mydomain.com > Computers that our client is listed there as well.
+
 ![Screenshot 2023-11-20 203803](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/54047cf8-36bd-4c2e-a44e-df4e7d1d0c7e)
 
 And success, that is the end of the lab! 🙌
