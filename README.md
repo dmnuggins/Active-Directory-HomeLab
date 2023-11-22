@@ -31,7 +31,7 @@ After initial setup is completed, we need to configure the network adapters in O
 
 The one with `10.0.2.15` IPv4 is our internet facing adapter, whereas the other is our internal one since the IPv4 is autoconfigured, so we can now label them as _INTERNET_ and X_Internal_X respectively.
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qi343h9ixok4wmdq8816.png)
+![adapter-settings](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/c2a4a3e4-9638-4909-b9a7-2a47787e6086)
 
 Renaming them will be easier for the configuration we'll be doing throughout the project.
 
@@ -66,6 +66,7 @@ https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/c446b041-bf
 
 Upon next login, we see that our VM is now part of MYDOMAIN.
 
+
 ![Screenshot 2023-11-21 150253](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/ad786f2f-8a2e-411c-a62d-2c41a098476c)
 
 Instead of the defaul Administrator account, I create my own domain admin account and promote it to Domain Admins.
@@ -78,3 +79,73 @@ Now to configure RAS/NAT to allow our client VM that is on the virtual private n
 
 https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/88d1f4da-40c4-4d80-aead-edcdf1a5d037
 
+### Setup DHCP server
+
+Doing this will allow our Windows 11 client to be auto assigned an IP address and allow our client to browse the internet, even though the VM is on a virtual private network.
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/457afa12-5791-48ec-bbeb-18927daaaa74
+
+After installation, it's time to configure the DHCP and setup a scope. Again, the purpose of DHCP is to allow clients on the network to automatically be assigned an IP address. Referencing our network diagram, I will create a scope that will give IP addresses in a range of `172.16.0.100-200`, so a range of 100 addresses that the DHCP server can give out. The DHCP lease time will be kept at the default 8 days. If this were a cafe, for example, I would want to probably use a lease period of 2hrs, since new clients will be logging into our wifi network frequently. We don't want to lock out IP address with a long lease time like 20 days. If we did that, we'll run out of IP's if the new client connection volume exceeds our IP cycle rate set by the DHCP lease time. This effectively prevents new clients from connecting to the internet through our network, since new IP's cannot be assigned. A better solution for the cafe situation would be to have a large IP range with short DHCP lease time. However, we are working with a homelab setup, so the default values will work fine for this situation.
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/00275584-d3db-490d-bd82-3df7d0e7ff2e
+
+### Config to allow us to browse internet from domain controller
+
+In order to get the powershell script from the internet and execute it on our domain controller, we'll need to do some more confiruation. We need to disable the IE Enhanced Security Config setting in our domain controller.
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/f3b11a94-b2a4-4d58-a472-14478c12fccb
+
+With the IE security feature disabled, we can download the script to the server [here](https://github.com/joshmadakor1/AD_PS/archive/master.zip).
+
+### Powershell script to create 1000 users
+
+Once we've downloaded and extracted the script files, we're ready to run it using PowerShell ISE in administrator mode to create our users. Before running the script though, open the text file, we'll add our first and last name to the `names.txt` file, just to make it easy to remember for when we log into the client computer after we're done with our server.
+
+![PowerShell-ISE](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/22d7b7bb-0eaa-4ed0-9f15-724074d33d2c)
+
+By default Windows won't allow us to execute unknown scripts from the internet, so we need to enable execution of our script by running the following command: `Set-ExecutionPolicy Unrestricted` and then click "Yes to All".
+
+![Screenshot 2023-11-21 161052](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/0256a33c-bf07-4c2c-8377-b74a0668abe8)
+
+Now, we run the script. There will be some visible errors during execution, but that's because of duplicates in the names.txt file, which shouldn't mess with the script's execution.
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/704967d1-2018-4636-9c76-121bf38d4908
+
+Confirming our users have been created in AD:
+
+https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/0efe3457-81bf-40a1-9260-87733b9c8cf2
+
+And we're done with our domain controller setup.
+
+### Setup client virtual machine
+
+Finally we can create our client machine, which will act as a user in our domain we created. We will call our machine `CLIENT1`. This will simulate an employee machine on our domain.
+
+![Screenshot 2023-11-20 195901](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/b10b92f4-d992-4d24-8682-3830a1fa3ea0)
+
+We'll set our network adapter to the internal network we configured when initally setting up our domain controller:
+
+![Screenshot 2023-11-20 195956](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/34999bb5-98d2-41e4-8cc9-b5927cd5506f)
+
+On initial setup, we can name our computer `CLIENT`, so when we get to the desktop, all we need to do is add our computer to our domain and authenticate the change with our domain admin credentials
+
+![Screenshot 2023-11-20 203350](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/587e9b3e-67bd-4ed0-9dd7-64622b936529)
+![Screenshot 2023-11-20 203541](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/9e510d4b-eaac-41cd-ad87-0e243511e50d)
+
+Let's logout and log in as our generate user `dnguyen`.
+![Screenshot 2023-11-20 203915](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/79581328-de8a-4f9d-9b37-d50958ea7d4e)
+
+After a successful login, let's run `whoami` to confirm my domain\user.
+
+![Screenshot 2023-11-20 204123](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/013a4f03-b357-4281-ab10-4797ede5e5f0)
+
+Let's ping google.com to confirm we have access to the internet and for good measure, we can ping our domain: `mydomain.com`
+![Screenshot 2023-11-20 203237](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/0c1e7816-7ad7-49c2-89f1-2b3006f2b927)
+
+Back on our DC, we can take a look in our DHCP > dc.mydomai.com > IPv4 > Address Leases to see our client machine listed with its unique IP in our defined scope.
+![Screenshot 2023-11-20 203707](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/bd277c67-4509-45e6-b81b-5fe80f6dbc52)
+
+We can also confirm in Active Directory > mydomain.com > Computers that our client is listed there as well.
+![Screenshot 2023-11-20 203803](https://github.com/dmnuggins/Active-Directory-HomeLab/assets/7257923/54047cf8-36bd-4c2e-a44e-df4e7d1d0c7e)
+
+And success, that is the end of the lab! 🙌
