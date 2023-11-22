@@ -1,4 +1,4 @@
-## Active Directory HomeLab
+# Active Directory HomeLab
 
 This project is a walkthrough of how I created an Active Directory homelab environment in VirtualBox using PowerShell, Active Directory, Windows 11, and MS Server 2019. The network consists of two VM's (virtual machines) where one will be the DC (domain controller) and the other is a client machine. I will have Active Directory (AD) installed on the DC and will generate 1000 randomized users in AD, which can be used to log into the client machine once the domain is set up and the client is properly added. This lab is a simulation of an enterprise network environment, so there will be some configurations that optimize for time and should not be included in a production-enterprise environment.
 
